@@ -1,0 +1,15 @@
+.colcon/build
+.colcon/install
+.colcon/log
+
+*.pyc
+*.iml
+*.swp
+.project
+.pydevproject
+.DS_Store
+.idea
+
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json

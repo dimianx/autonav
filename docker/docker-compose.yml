@@ -1,0 +1,33 @@
+version: "3.7"
+
+services:
+  devel:
+    image: dimianx/autonav:devel
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+      target: devel
+      args:
+        - UID=${UID:-1000}
+        - GID=${UID:-1000}
+        - USERNAME=${USERNAME:-devuser}
+    stdin_open: true
+    tty: true
+    network_mode: host
+    ipc: host
+    privileged: True
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - NVIDIA_DRIVER_CAPABILITIES=all
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority
+      - ../autonav_navigation:/autonav_ws/src/autonav_navigation:rw
+      - ../autonav_gz:/autonav_ws/src/autonav_gz:rw
+      - ../autonav_rviz:/autonav_ws/src/autonav_rviz:rw
+      - ../.colcon/build/:/autonav_ws/build/:rw
+      - ../.colcon/install/:/autonav_ws/install/:rw
+      - ../.colcon/log/:/autonav_ws/log/:rw
+    user: ${USERNAME:-devuser}
+    command: sleep infinity
